@@ -1,0 +1,35 @@
+<% layout("./layouts/layout.eta") %>
+
+<h1><%= it.list.name %></h1>
+
+<h2>Add a new item to list</h2>
+
+<form method='POST' action='/lists/<%= it.list.id %>/items'>
+    <input type='text' name='name' />
+    <input type='submit' value='Add item to list!' />
+</form>
+
+<h2>Items in this shopping lists</h2>
+
+<% if (it.notCollectedItems && it.notCollectedItems.length > 0 || it.collectedItems && it.collectedItems.length > 0) { %>
+  <ul>
+
+  <% if (it.notCollectedItems && it.notCollectedItems.length > 0) { %>
+    <% it.notCollectedItems.forEach((item) => { %>
+      <li><%= item.name %></li>
+      <form method="POST" action="/lists/<%= it.list.id %>/items/<%= item.id %>">
+        <input type="submit" value="Mark as collected!" />
+      </form>
+    <% }); %>
+  <% } %>
+
+  <% if (it.collectedItems && it.collectedItems.length > 0) { %>
+    <% it.collectedItems.forEach((item) => { %>
+      <li> <del> <%= item.name %> </del> </li>
+    <% }); %>
+  <% } %>
+
+  </ul>
+<% } %>
+
+<a href="/lists">Shopping lists</a>
